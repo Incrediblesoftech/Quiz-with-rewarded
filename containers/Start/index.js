@@ -6,6 +6,7 @@ import { FaPlayCircle } from 'react-icons/fa';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 import { useScore } from 'context/ScoreContext';
 import Ads from '@components/Ads';
+import { FaCoins } from "react-icons/fa";
 
 function Start() {
   const router = useRouter();
@@ -104,6 +105,38 @@ function Start() {
     },
   };
 
+  const showRewardAd = () => {
+
+    if (typeof window !== "undefined" && window.adBreak) {
+
+      window.adBreak({
+        type: "reward",
+        name: "rewarded-coin-ad",
+
+        beforeAd: () => {
+          console.log("Ad started");
+        },
+
+        beforeReward: (showAdFn) => {
+          showAdFn();
+        },
+
+        adViewed: () => {
+          console.log("User watched full ad");
+
+          // 100 coins add
+          setScore((prev) => prev + 100);
+        },
+
+        adDismissed: () => {
+          console.log("Ad skipped");
+        }
+
+      });
+
+    }
+
+  };
   return (
     <Layout title="QuizStorm">
       <div className='px-2'>
@@ -115,6 +148,11 @@ function Start() {
       </div>
       <div className="flex flex-col items-center pt-10 pb-10 px-2 w-full">
 
+        <div
+          onClick={showRewardAd}
+          className="fixed bottom-6 right-6 md:right-[450px] z-50 w-[85px] h-[85px] rounded-full flex flex-col items-center justify-center text-center  cursor-pointer hover:scale-105 transition">
+          <img src="/assets/image/getFreeCoins.png" />
+        </div>
 
         {/* Category Scroll Filter */}
         <div className="flex items-center w-full mb-4">
@@ -229,6 +267,8 @@ function Start() {
           </div>
         </div>
       )}
+
+
 
       <div className='px-2'>
         <Ads
