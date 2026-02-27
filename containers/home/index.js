@@ -26,63 +26,75 @@ function Home() {
     setParagraph(pick)
   }, []);
 
-  const handleAnswer = (option) => {
-    setSelected(option);
-    const isCorrect = option === quizQuestions[current].answer;
+const handleAnswer = (option) => {
+  setSelected(option);
 
-    if (isCorrect) {
-      setRightAns((prev) => prev + 100);
-    }
+  const isCorrect = option === quizQuestions[current].answer;
+
+  if (isCorrect) {
+    setRightAns((prev) => prev + 100);
+  }
+
+  // FIRST QUESTION → AD SHOW
+  if (current === 0) {
 
     setTimeout(() => {
-      if (current + 1 < quizQuestions.length) {
-        setCurrent(current + 1);
-        setSelected(null);
-      } else {
-        const finalScore = rightAns + (isCorrect ? 100 : 0);
-        setScore(finalScore);
-        router.push(`/start/result?score=${finalScore}`);
-      }
+      showRewardAd(isCorrect);
     }, 800);
-  };
+
+    return;
+  }
+
+  // SECOND QUESTION → RESULT
+  setTimeout(() => {
+    const finalScore = rightAns + (isCorrect ? 100 : 0);
+    setScore(finalScore);
+    router.push(`/start/result?score=${finalScore}`);
+  }, 800);
+
+};
 
   if (quizQuestions.length === 0) return <div></div>;
+  
+const showRewardAd = (isCorrect) => {
 
-  const showRewardAd = () => {
+  if (typeof window !== "undefined" && window.adBreak) {
 
-    if (typeof window !== "undefined" && window.adBreak) {
+    window.adBreak({
+      type: "reward",
+      name: "rewarded-ad",
 
-      window.adBreak({
-        type: "reward",
-        name: "rewarded-ad",
+      beforeAd: () => {
+        console.log("Ad started");
+      },
 
-        beforeAd: () => {
-          console.log("Ad started");
-        },
+      beforeReward: (showAdFn) => {
+        showAdFn();
+      },
 
-        beforeReward: (showAdFn) => {
-          console.log("Ad finished, waiting for reward");
+      adViewed: () => {
 
-          // user ne reward ad dekhavvu
-          showAdFn();
-        },
+        console.log("User watched full ad");
 
-        adViewed: () => {
-          console.log("User watched full ad");
+        // NEXT QUESTION
+        setCurrent(1);
+        setSelected(null);
 
-          // ahi tame quiz start karavi sako
-          router.push("/start");
-        },
+      },
 
-        adDismissed: () => {
-          console.log("User closed ad before reward");
-        }
+      adDismissed: () => {
+        console.log("User skipped ad");
 
-      });
+        // STILL MOVE TO NEXT QUESTION
+        setCurrent(1);
+        setSelected(null);
+      }
 
-    }
+    });
 
-  };
+  }
+
+};
   return (
     <Fragment>
       <div className='px-3 pt-2'>
