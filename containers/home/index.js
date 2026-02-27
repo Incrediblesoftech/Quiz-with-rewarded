@@ -47,7 +47,7 @@ function Home() {
   };
 
   if (quizQuestions.length === 0) return <div></div>;
-  
+
   const showRewardAd = () => {
 
     if (typeof window !== "undefined" && window.adBreak) {
@@ -60,12 +60,22 @@ function Home() {
           console.log("Ad started");
         },
 
-        afterAd: () => {
-          console.log("Ad finished");
+        beforeReward: (showAdFn) => {
+          console.log("Ad finished, waiting for reward");
+
+          // user ne reward ad dekhavvu
+          showAdFn();
         },
 
-        reward: () => {
+        adViewed: () => {
           console.log("User watched full ad");
+
+          // ahi tame quiz start karavi sako
+          router.push("/start");
+        },
+
+        adDismissed: () => {
+          console.log("User closed ad before reward");
         }
 
       });
@@ -180,7 +190,7 @@ function Home() {
       <div className="text-2xl font-bold">Quick Start!</div>
 
       <button
-      onClick={showRewardAd}
+        onClick={showRewardAd}
         className="mt-4 bg-green-500 text-white px-6 py-2 rounded-lg font-semibold"
       >
         Watch Ad & Start Quiz
