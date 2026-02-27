@@ -18,6 +18,42 @@ function Result() {
         setParagraph(pick)
     }, []);
 
+const showRewardAd = () => {
+
+  if (typeof window !== "undefined" && window.adBreak) {
+
+    window.adBreak({
+      type: "reward",
+      name: "rewarded-ad",
+
+      beforeAd: () => {
+        console.log("Ad started");
+      },
+
+      beforeReward: (showAdFn) => {
+        showAdFn();
+      },
+
+      adViewed: () => {
+        console.log("User watched full ad");
+
+        // Ad complete → popup close
+        setShowPopup(false);
+      },
+
+      adDismissed: () => {
+        console.log("Ad skipped");
+
+        // even if skipped → popup close
+        setShowPopup(false);
+      }
+
+    });
+
+  }
+
+};
+
     return (
         <Fragment>
             <div className='px-2 pt-2'>
@@ -53,9 +89,9 @@ function Result() {
                             </div>
 
                             <button
-                                onClick={() => setShowPopup(false)}
+                                 onClick={showRewardAd}
                                 type='submit'
-                                className=" text-black   mt-5 text-xl hover:text-primary4 border-[2px] border-primary4 hover:border-primary4 hover:bg-primary1  bg-primary4  rounded-3xl px-5 py-2 w-[250px] text-center">{"Claim "}
+                                className=" text-black   mt-5 text-xl hover:text-primary4 border-[2px] border-primary4 hover:border-primary4 hover:bg-primary1  bg-primary4  rounded-3xl px-5 py-2 w-[250px] text-center">{" 🎬 Claim "}
                             </button>
                         </div>
 
