@@ -18,53 +18,47 @@ function Result() {
         setParagraph(pick)
     }, []);
 
-const showRewardAd = () => {
+    const showRewardAd = () => {
 
-  if (typeof window !== "undefined" && window.adBreak) {
+        if (typeof window !== "undefined" && window.adBreak) {
 
-    window.adBreak({
-      type: "reward",
-      name: "rewarded-ad",
+            window.adBreak({
+                type: "reward",
+                name: "rewarded-ad",
 
-      beforeAd: () => {
-        console.log("Ad started");
-      },
+                beforeAd: () => {
+                    console.log("Ad started");
+                },
 
-      beforeReward: (showAdFn) => {
-        showAdFn();
-      },
+                beforeReward: (showAdFn) => {
+                    showAdFn();
+                },
 
-      adViewed: () => {
-        console.log("User watched full ad");
+                adViewed: () => {
+                    console.log("User watched full ad");
 
-        // Ad complete → popup close
-        setShowPopup(false);
-      },
+                    // Ad complete → popup close
+                    setShowPopup(false);
+                },
 
-      adDismissed: () => {
-        console.log("Ad skipped");
+                adDismissed: () => {
+                    console.log("Ad skipped");
 
-        // even if skipped → popup close
-        setShowPopup(false);
-      }
+                    // even if skipped → popup close
+                    setShowPopup(false);
+                }
 
-    });
+            });
 
-  }
+        }
 
-};
+    };
 
     return (
         <Fragment>
-            <div className='px-2 pt-2'>
-                <Ads
-                    data-ad-format="auto"
-                    data-ad-slot="8433272954"
-                    data-full-width-responsive="true"
-                />
-            </div>
+
             {showPopup &&
-                <div className='flex flex-col items-center justify-center  '>
+                <div className='flex h-screen flex-col  justify-center  '>
                     <div className='flex  flex-col gap-5 m-2 rounded-3xl p-2 border-[2px] border-white border-solid'>
                         <div className='flex cursor-pointer items-end justify-end'>
                             <IoClose
@@ -89,7 +83,7 @@ const showRewardAd = () => {
                             </div>
 
                             <button
-                                 onClick={showRewardAd}
+                                onClick={showRewardAd}
                                 type='submit'
                                 className=" text-black   mt-5 text-xl hover:text-primary4 border-[2px] border-primary4 hover:border-primary4 hover:bg-primary1  bg-primary4  rounded-3xl px-5 py-2 w-[250px] text-center">{" 🎬 Claim "}
                             </button>
@@ -103,6 +97,13 @@ const showRewardAd = () => {
 
             {!showPopup &&
                 <div>
+                    <div className='px-2 pt-2'>
+                        <Ads
+                            data-ad-format="auto"
+                            data-ad-slot="8433272954"
+                            data-full-width-responsive="true"
+                        />
+                    </div>
                     <div className='flex flex-col items-center px-4 mt-[100px] '>
 
                         <div className='flex flex-col items-center justify-center p-4 bg-white  border-[2px] w-full rounded-2xl  border-white border-solid'>
@@ -132,7 +133,7 @@ const showRewardAd = () => {
                                 </div>
                             </div>
                         ))}
-                       
+
                     </div>
 
                     <div className='px-3 mt-5' >
