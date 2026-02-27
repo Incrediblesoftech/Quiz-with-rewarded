@@ -9,12 +9,11 @@ import Ads from "@components/Ads";
 function Home() {
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [current, setCurrent] = useState(0);
-  const [paragraph, setParagraph] = useState([])
+  const [paragraph, setParagraph] = useState([]);
   const [selected, setSelected] = useState(null);
   const { setScore } = useScore();
   const [rightAns, setRightAns] = useState(0);
   const router = useRouter();
-
 
   useEffect(() => {
     const shuffled = [...questions].sort(() => 0.5 - Math.random());
@@ -22,91 +21,83 @@ function Home() {
     setQuizQuestions(picked);
 
     const quizParagraph = [...quizData].sort(() => 0.5 - Math.random());
-    const pick = quizParagraph.slice(0, 1)
-    setParagraph(pick)
+    const pick = quizParagraph.slice(0, 1);
+    setParagraph(pick);
   }, []);
 
-const handleAnswer = (option) => {
-  setSelected(option);
+  const showRewardAd = () => {
+    if (typeof window !== "undefined" && window.adBreak) {
+      window.adBreak({
+        type: "reward",
+        name: "rewarded-ad",
 
-  const isCorrect = option === quizQuestions[current].answer;
+        beforeAd: () => {
+          console.log("Ad started");
+        },
 
-  if (isCorrect) {
-    setRightAns((prev) => prev + 100);
-  }
+        beforeReward: (showAdFn) => {
+          showAdFn();
+        },
 
-  // FIRST QUESTION → AD SHOW
-  if (current === 0) {
+        adViewed: () => {
+          console.log("Ad watched fully");
 
+          // NEXT QUESTION
+          setCurrent(1);
+          setSelected(null);
+        },
+
+        adDismissed: () => {
+          console.log("Ad skipped");
+
+          // STILL MOVE TO NEXT QUESTION
+          setCurrent(1);
+          setSelected(null);
+        },
+      });
+    }
+  };
+
+  const handleAnswer = (option) => {
+    setSelected(option);
+
+    const isCorrect = option === quizQuestions[current].answer;
+
+    if (isCorrect) {
+      setRightAns((prev) => prev + 100);
+    }
+
+    // FIRST QUESTION → SHOW AD
+    if (current === 0) {
+      setTimeout(() => {
+        showRewardAd();
+      }, 800);
+      return;
+    }
+
+    // SECOND QUESTION → RESULT
     setTimeout(() => {
-      showRewardAd(isCorrect);
+      const finalScore = rightAns + (isCorrect ? 100 : 0);
+      setScore(finalScore);
+      router.push(`/start/result?score=${finalScore}`);
     }, 800);
-
-    return;
-  }
-
-  // SECOND QUESTION → RESULT
-  setTimeout(() => {
-    const finalScore = rightAns + (isCorrect ? 100 : 0);
-    setScore(finalScore);
-    router.push(`/start/result?score=${finalScore}`);
-  }, 800);
-
-};
+  };
 
   if (quizQuestions.length === 0) return <div></div>;
-  
-const showRewardAd = (isCorrect) => {
 
-  if (typeof window !== "undefined" && window.adBreak) {
-
-    window.adBreak({
-      type: "reward",
-      name: "rewarded-ad",
-
-      beforeAd: () => {
-        console.log("Ad started");
-      },
-
-      beforeReward: (showAdFn) => {
-        showAdFn();
-      },
-
-      adViewed: () => {
-
-        console.log("User watched full ad");
-
-        // NEXT QUESTION
-        setCurrent(1);
-        setSelected(null);
-
-      },
-
-      adDismissed: () => {
-        console.log("User skipped ad");
-
-        // STILL MOVE TO NEXT QUESTION
-        setCurrent(1);
-        setSelected(null);
-      }
-
-    });
-
-  }
-
-};
   return (
     <Fragment>
-      <div className='px-3 pt-2'>
+      <div className="px-3 pt-2">
         <Ads
           data-ad-format="auto"
           data-ad-slot="8433272954"
           data-full-width-responsive="true"
         />
       </div>
+
       <div className="flex flex-col items-center justify-start text-center px-3 pt-[50px]">
 
-        <div className='px-2'>
+        <div className="px-2">
           <Ads
             data-ad-format="auto"
             data-ad-slot="8433272954"
@@ -120,6 +111,7 @@ const showRewardAd = (isCorrect) => {
         </div>
 
         <div className="relative mt-[50px] flex flex-col bg-primary3 w-full p-4 rounded-xl">
+
           <div className="absolute -top-4 p-1 rounded-full bg-primary3 left-1/2 transform -translate-x-1/2">
             <div className="bg-primary1 text-sm px-4 py-1 rounded-full font-semibold shadow-md">
               {current + 1}/{quizQuestions.length} Question
@@ -134,14 +126,15 @@ const showRewardAd = (isCorrect) => {
             {quizQuestions[current].options.map((option) => (
               <button
                 key={option}
-                className={`py-2 px-4 rounded ${selected
-                  ? option === quizQuestions[current].answer
-                    ? "bg-green-500 text-white"
-                    : option === selected
+                className={`py-2 px-4 rounded ${
+                  selected
+                    ? option === quizQuestions[current].answer
+                      ? "bg-green-500 text-white"
+                      : option === selected
                       ? "bg-red-500 text-white"
                       : "bg-primary1 opacity-60 text-white"
-                  : "bg-primary1 hover:bg-blue-950 hover:text-white"
-                  }`}
+                    : "bg-primary1 hover:bg-blue-950 hover:text-white"
+                }`}
                 disabled={!!selected}
                 onClick={() => handleAnswer(option)}
               >
@@ -151,15 +144,19 @@ const showRewardAd = (isCorrect) => {
           </div>
         </div>
 
-
         <div className="flex flex-col items-center justify-center text-center mt-[50px] bg-primary3 w-full p-2 rounded-xl">
           <div className="text-[18px] font-bold text-center">#Fact</div>
           <div>{quizQuestions[current].explanation}</div>
         </div>
 
         {paragraph.map((item, index) => (
-          <div key={index} className="mt-[50px] bg-primary3 w-full p-4 rounded-xl">
-            <div className="text-[18px] font-bold text-center mb-2">Learn Something New!</div>
+          <div
+            key={index}
+            className="mt-[50px] bg-primary3 w-full p-4 rounded-xl"
+          >
+            <div className="text-[18px] font-bold text-center mb-2">
+              Learn Something New!
+            </div>
 
             <div className="text-left font-semibold text-[16px] text-white">
               {item.topic}
@@ -170,11 +167,9 @@ const showRewardAd = (isCorrect) => {
             </div>
           </div>
         ))}
-
-
       </div>
 
-      <div className='px-3 mt-5' >
+      <div className="px-3 mt-5">
         <Ads
           data-ad-format="auto"
           data-ad-slot="8433272954"
@@ -188,30 +183,19 @@ const showRewardAd = (isCorrect) => {
         </div>
       </div>
 
-
-
       <div className="px-3">
-        <ul className="list-disc  p-4 text-left text-[15px] space-y-2 text-primary2">
-          <li>Play quizzes in 25+ categories like GK, Sports, Bollywood, Business, Cricket & more!</li>
+        <ul className="list-disc p-4 text-left text-[15px] space-y-2 text-primary2">
+          <li>
+            Play quizzes in 25+ categories like GK, Sports, Bollywood,
+            Business, Cricket & more!
+          </li>
           <li>Compete with lakhs of other players!</li>
           <li>Win coins for every game</li>
           <li>Trusted by millions of other quiz enthusiasts like YOU!</li>
         </ul>
       </div>
-
-      <div className="text-2xl font-bold">Quick Start!</div>
-
-      <button
-        onClick={showRewardAd}
-        className="mt-4 bg-green-500 text-white px-6 py-2 rounded-lg font-semibold"
-      >
-        Watch Ad & Start Quiz
-      </button>
-
     </Fragment>
-
-
   );
 }
 
-export default Home
+export default Home;
