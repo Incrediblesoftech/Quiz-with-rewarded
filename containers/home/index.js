@@ -25,39 +25,29 @@ function Home() {
     setParagraph(pick);
   }, []);
 
-  const showRewardAd = () => {
+  const showDisplayAd = () => {
     if (typeof window !== "undefined" && window.adBreak) {
       window.adBreak({
-        type: "reward",
-        name: "rewarded-ad",
+        type: "browse",
+        name: "quiz-display-ad",
 
         beforeAd: () => {
-          console.log("Ad started");
+          console.log("Display Ad started");
         },
 
-        beforeReward: (showAdFn) => {
-          showAdFn();
+        afterAd: () => {
+          console.log("Display Ad finished");
         },
 
-        adViewed: () => {
-          console.log("Ad watched fully");
-
+        adBreakDone: () => {
           // NEXT QUESTION
-          setCurrent(1);
-          setSelected(null);
-        },
-
-        adDismissed: () => {
-          console.log("Ad skipped");
-
-          // STILL MOVE TO NEXT QUESTION
           setCurrent(1);
           setSelected(null);
         },
       });
     }
   };
-
+  
   const handleAnswer = (option) => {
     setSelected(option);
 
@@ -70,7 +60,7 @@ function Home() {
     // FIRST QUESTION → SHOW AD
     if (current === 0) {
       setTimeout(() => {
-        showRewardAd();
+        showDisplayAd();
       }, 800);
       return;
     }
@@ -126,15 +116,14 @@ function Home() {
             {quizQuestions[current].options.map((option) => (
               <button
                 key={option}
-                className={`py-2 px-4 rounded ${
-                  selected
-                    ? option === quizQuestions[current].answer
-                      ? "bg-green-500 text-white"
-                      : option === selected
+                className={`py-2 px-4 rounded ${selected
+                  ? option === quizQuestions[current].answer
+                    ? "bg-green-500 text-white"
+                    : option === selected
                       ? "bg-red-500 text-white"
                       : "bg-primary1 opacity-60 text-white"
-                    : "bg-primary1 hover:bg-blue-950 hover:text-white"
-                }`}
+                  : "bg-primary1 hover:bg-blue-950 hover:text-white"
+                  }`}
                 disabled={!!selected}
                 onClick={() => handleAnswer(option)}
               >
