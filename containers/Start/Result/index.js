@@ -53,6 +53,28 @@ function Result() {
         }
 
     };
+    const showDisplayAd = () => {
+        if (typeof window !== "undefined" && window.adBreak) {
+            window.adBreak({
+                type: "browse",
+                name: "quiz-display-ad",
+
+                beforeAd: () => {
+                    console.log("Display Ad started");
+                },
+
+                afterAd: () => {
+                    console.log("Display Ad finished");
+                },
+
+                adBreakDone: () => {
+                    console.log("Ad finished → redirect to /start");
+
+                    router.push("/start");
+                },
+            });
+        }
+    };
 
     return (
         <Fragment>
@@ -114,9 +136,12 @@ function Result() {
                             <div className='text-center text-black text-[18px] font-bold' >{"You Have got"}
                                 <span className='text-yellow-600'> {score}</span> {"Coins"}
                             </div>
-                            <a href='/start'>
-                                <button type='submit' className="text-white mt-5 text-xl hover:text-primary3 border-[2px] border-white hover:border-primary3 hover:bg-white bg-primary3  rounded-lg px-5 py-2 text-center">{"Play Now"}</button>
-                            </a>
+
+                            <button
+                                onClick={showDisplayAd}
+                                type='submit'
+                                className="text-white mt-5 text-xl hover:text-primary3 border-[2px] border-white hover:border-primary3 hover:bg-white bg-primary3  rounded-lg px-5 py-2 text-center">{"Play Now"}</button>
+
 
                         </div>
 
