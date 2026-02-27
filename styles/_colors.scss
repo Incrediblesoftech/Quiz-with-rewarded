@@ -1,0 +1,50 @@
+// primary colors
+$primary1: #135dd3;
+$primary2: #45962f;
+$primary3: #1e3b69;
+$primary4: #4c6fff;
+
+
+$neutrals1: #141416;
+$neutrals2: #23262f;
+$neutrals3: #353945;
+$neutrals4: #777e90;
+$neutrals5: #b1b5c3;
+$neutrals6: #e6e8ec;
+$neutrals7: #f4f5f6;
+$neutrals8: #fcfcfd;
+$neutrals9: #ffffff;
+$neutrals10: #f3f6f8;
+
+$accent1: #ea6036; // Orange
+$accent2: #d63131; // Red
+$accent3: #50ad39; // Green
+
+// text colors
+$text1: #27272e;
+$text2: #425466;
+$text3: #7a828a;
+$text4: #edf2f7;
+
+// other colors
+$blue: #3772ff;
+$green: #50ad39;
+$red: #d63131;
+$orange: #ea6036;
+
+$greenLight: #22b283;
+$orangeLight: #f57343;
+$redLight: #ff4c4c;
+$yellowLight: #ffcd4c;
+
+@mixin dark {
+    @at-root :global(.dark) & {
+      @content;
+    }
+  }
+  
+  @mixin dark-body {
+    @at-root #{selector-nest(':root.dark', &)} {
+      @content;
+    }
+  }

@@ -1,0 +1,101 @@
+$inter: calibar;
+$primary-font: $inter;
+
+@font-face {
+  font-family: $inter;
+  src: url("/assets/fonts/Inter/Inter-Black.ttf");
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: $inter;
+  src: url("/assets/fonts/Inter/Inter-ExtraBold.ttf");
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: $inter;
+  src: url("/assets/fonts/Inter/Inter-Bold.ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: $inter;
+  src: url("/assets/fonts/Inter/Inter-SemiBold.ttf");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: $inter;
+  src: url("/assets/fonts/Inter/Inter-Medium.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: $inter;
+  src: url("/assets/fonts/Inter/Inter-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: $inter;
+  src: url("/assets/fonts/Inter/Inter-Light.ttf");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: $inter;
+  src: url("/assets/fonts/Inter/Inter-ExtraLight.ttf");
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: $inter;
+  src: url("/assets/fonts/Inter/Inter-Thin.ttf");
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: "alternate-gothic-compressed";
+  src: url("https://use.typekit.net/af/53acad/00000000000000007735c712/30/l?primer=81a69539b194230396845be9681d114557adfb35f4cccc679c164afb4aa47365&fvd=n5&v=3")
+    format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: normal;
+}
+
+@font-face {
+  font-family: "eds-market-regular-slant";
+  src: url("https://use.typekit.net/af/74c458/00000000000000003b9b09c6/27/l?primer=81a69539b194230396845be9681d114557adfb35f4cccc679c164afb4aa47365&fvd=n4&v=3")
+    format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: normal;
+}
+@font-face {
+  font-family: "Apercu-Bold";
+  src: url("/public/assets/fonts/Inter/Apercu-Bold.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: normal;
+}
+@font-face {
+  font-family: "Apercu-Medium";
+  src: url("/public/assets/fonts/Inter/Apercu-Medium.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: normal;
+}
+
+@font-face {
+  font-family: "Apercu-Regular";
+  src: url("/public/assets/fonts/Inter/Apercu-Regular.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: normal;
+}
