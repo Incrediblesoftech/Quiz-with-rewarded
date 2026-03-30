@@ -8,6 +8,7 @@ import Ads from "@components/Ads";
 
 function Home() {
   const [quizQuestions, setQuizQuestions] = useState([]);
+    const [loading, setLoading] = useState(true)
   const [current, setCurrent] = useState(0);
   const [paragraph, setParagraph] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -23,6 +24,14 @@ function Home() {
     const quizParagraph = [...quizData].sort(() => 0.5 - Math.random());
     const pick = quizParagraph.slice(0, 1);
     setParagraph(pick);
+  }, []);
+
+    useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const showDisplayAd = () => {
@@ -74,6 +83,35 @@ function Home() {
   };
 
   if (quizQuestions.length === 0) return <div></div>;
+
+  
+  if (loading) {
+    return (
+      <div className="bg-primary1 ls:w-[360px] flex flex-col justify-center items-center mx-auto h-screen ">
+        <div className="relative">
+          <div className="relative w-32 h-32">
+            <div
+              className="absolute w-full h-full rounded-full border-[3px] border-gray-100/10 border-r-[#0ff] border-b-[#0ff] animate-spin"
+              style={{ animationDuration: "3s" }}
+            ></div>
+
+            <div
+              className="absolute w-full h-full rounded-full border-[3px] border-gray-100/10 border-t-[#0ff] animate-spin"
+              style={{
+                animationDuration: "2s",
+                animationDirection: "reverse",
+              }}
+            ></div>
+          </div>
+
+          <div className="absolute inset-0 bg-gradient-to-tr from-[#0ff]/10 via-transparent to-[#0ff]/5 animate-pulse rounded-full blur-sm"></div>
+        </div>
+        <div className="pt-5">
+          {"Wait For Content ..."}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Fragment>
