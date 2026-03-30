@@ -7,67 +7,57 @@ import Modal from "@components/model";
 import Ads from "@components/Ads";
 
 function Home() {
-
   const [quizQuestions, setQuizQuestions] = useState([]);
-  const [paragraph, setParagraph] = useState([]);
-  const [loading, setLoading] = useState(true);
-
+    const [loading, setLoading] = useState(true)
   const [current, setCurrent] = useState(0);
+  const [paragraph, setParagraph] = useState([]);
   const [selected, setSelected] = useState(null);
-  const [rightAns, setRightAns] = useState(0);
-
   const { setScore } = useScore();
+  const [rightAns, setRightAns] = useState(0);
   const router = useRouter();
 
-
-
-  // load questions
   useEffect(() => {
-
     const shuffled = [...questions].sort(() => 0.5 - Math.random());
-    setQuizQuestions(shuffled.slice(0, 2));
+    const picked = shuffled.slice(0, 2);
+    setQuizQuestions(picked);
 
     const quizParagraph = [...quizData].sort(() => 0.5 - Math.random());
-    setParagraph(quizParagraph.slice(0, 1));
-
+    const pick = quizParagraph.slice(0, 1);
+    setParagraph(pick);
   }, []);
 
+    useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
 
-  // loader wait only for ads render
-  useEffect(() => {
+    return () => clearTimeout(timer);
+  }, []);
 
-    const handleAdsReady = () => {
+  const showDisplayAd = () => {
+    if (typeof window !== "undefined" && window.adBreak) {
+      window.adBreak({
+        type: "browse",
+        name: "quiz-display-ad",
 
-      // wait ads render time
-      setTimeout(() => {
+        beforeAd: () => {
+          console.log("Display Ad started");
+        },
 
-        setLoading(false);
+        afterAd: () => {
+          console.log("Display Ad finished");
+        },
 
-      }, 3000);
-
-    };
-
-    if (document.readyState === "complete") {
-
-      handleAdsReady();
-
-    } else {
-
-      window.addEventListener("load", handleAdsReady);
-
+        adBreakDone: () => {
+          // NEXT QUESTION
+          setCurrent(1);
+          setSelected(null);
+        },
+      });
     }
-
-    return () => {
-
-      window.removeEventListener("load", handleAdsReady);
-
-    };
-
-  }, []);
-
-
+  };
+  
   const handleAnswer = (option) => {
-
     setSelected(option);
 
     const isCorrect = option === quizQuestions[current].answer;
@@ -76,39 +66,30 @@ function Home() {
       setRightAns((prev) => prev + 100);
     }
 
+    // FIRST QUESTION → SHOW AD
+    if (current === 0) {
+      setTimeout(() => {
+        showDisplayAd();
+      }, 800);
+      return;
+    }
+
+    // SECOND QUESTION → RESULT
     setTimeout(() => {
-
-      if (current + 1 < quizQuestions.length) {
-
-        setCurrent(current + 1);
-        setSelected(null);
-
-      } else {
-
-        const finalScore = rightAns + (isCorrect ? 100 : 0);
-
-        setScore(finalScore);
-
-        router.push(`/start/result?score=${finalScore}`);
-
-      }
-
+      const finalScore = rightAns + (isCorrect ? 100 : 0);
+      setScore(finalScore);
+      router.push(`/start/result?score=${finalScore}`);
     }, 800);
-
   };
 
+  if (quizQuestions.length === 0) return <div></div>;
 
-  // loader UI
+  
   if (loading) {
-
     return (
-
-      <div className="bg-primary1 ls:w-[360px] flex flex-col justify-center items-center mx-auto h-screen">
-
+      <div className="bg-primary1 ls:w-[360px] flex flex-col justify-center items-center mx-auto h-screen ">
         <div className="relative">
-
           <div className="relative w-32 h-32">
-
             <div
               className="absolute w-full h-full rounded-full border-[3px] border-gray-100/10 border-r-[#0ff] border-b-[#0ff] animate-spin"
               style={{ animationDuration: "3s" }}
@@ -121,32 +102,20 @@ function Home() {
                 animationDirection: "reverse",
               }}
             ></div>
-
           </div>
 
           <div className="absolute inset-0 bg-gradient-to-tr from-[#0ff]/10 via-transparent to-[#0ff]/5 animate-pulse rounded-full blur-sm"></div>
-
         </div>
-
         <div className="pt-5">
-
-          Wait For Content ...
-
+          {"Wait For Content ..."}
         </div>
-
       </div>
-
     );
-
   }
 
-
   return (
-
     <Fragment>
-
-      {/* top ad */}
-      <div className='px-3 pt-2'>
+      <div className="px-3 pt-2">
         <Ads
           data-ad-format="auto"
           data-ad-slot="4459409396"
@@ -154,51 +123,34 @@ function Home() {
         />
       </div>
 
-
       <div className="flex flex-col items-center justify-start text-center px-3 pt-[50px]">
 
-        {/* second ad */}
-        <div className='px-2'>
           <Ads
             data-ad-format="auto"
             data-ad-slot="6894001046"
             data-full-width-responsive="true"
           />
-        </div>
 
 
-        <div className="text-2xl font-bold">
-          Quick Start!
-        </div>
-
-
+        <div className="text-2xl font-bold">Quick Start!</div>
         <div className="text-primary2 text-[15px]">
           Answer 2 questions and win up to 200 coins.
         </div>
 
-
-        {/* quiz card */}
-
         <div className="relative mt-[50px] flex flex-col bg-primary3 w-full p-4 rounded-xl">
 
           <div className="absolute -top-4 p-1 rounded-full bg-primary3 left-1/2 transform -translate-x-1/2">
-
             <div className="bg-primary1 text-sm px-4 py-1 rounded-full font-semibold shadow-md">
               {current + 1}/{quizQuestions.length} Question
             </div>
-
           </div>
-
 
           <h2 className="text-lg mt-5 font-semibold mb-4">
             {quizQuestions[current].question}
           </h2>
 
-
           <div className="grid grid-cols-2 gap-4 w-full max-w-md">
-
             {quizQuestions[current].options.map((option) => (
-
               <button
                 key={option}
                 className={`py-2 px-4 rounded ${selected
@@ -212,24 +164,25 @@ function Home() {
                 disabled={!!selected}
                 onClick={() => handleAnswer(option)}
               >
-
                 {option}
-
               </button>
-
             ))}
-
           </div>
-
         </div>
+
         <div className="flex flex-col items-center justify-center text-center mt-[50px] bg-primary3 w-full p-2 rounded-xl">
           <div className="text-[18px] font-bold text-center">#Fact</div>
           <div>{quizQuestions[current].explanation}</div>
         </div>
 
         {paragraph.map((item, index) => (
-          <div key={index} className="mt-[50px] bg-primary3 w-full p-4 rounded-xl">
-            <div className="text-[18px] font-bold text-center mb-2">Learn Something New!</div>
+          <div
+            key={index}
+            className="mt-[50px] bg-primary3 w-full p-4 rounded-xl"
+          >
+            <div className="text-[18px] font-bold text-center mb-2">
+              Learn Something New!
+            </div>
 
             <div className="text-left font-semibold text-[16px] text-white">
               {item.topic}
@@ -240,21 +193,14 @@ function Home() {
             </div>
           </div>
         ))}
-
-
       </div>
 
-
-      {/* bottom ad */}
-
-      <div className='px-3 mt-5'>
-
+      <div className="px-3 mt-5">
         <Ads
           data-ad-format="auto"
           data-ad-slot="1641674363"
           data-full-width-responsive="true"
         />
-
       </div>
 
       <div className="flex justify-center items-center">
@@ -263,21 +209,19 @@ function Home() {
         </div>
       </div>
 
-
-
       <div className="px-3">
-        <ul className="list-disc  p-4 text-left text-[15px] space-y-2 text-primary2">
-          <li>Play quizzes in 25+ categories like GK, Sports, Bollywood, Business, Cricket & more!</li>
+        <ul className="list-disc p-4 text-left text-[15px] space-y-2 text-primary2">
+          <li>
+            Play quizzes in 25+ categories like GK, Sports, Bollywood,
+            Business, Cricket & more!
+          </li>
           <li>Compete with lakhs of other players!</li>
           <li>Win coins for every game</li>
           <li>Trusted by millions of other quiz enthusiasts like YOU!</li>
         </ul>
       </div>
-
     </Fragment>
-
   );
-
 }
 
 export default Home;
