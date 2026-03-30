@@ -130,7 +130,7 @@ function Home() {
 
         <div className="pt-5">
 
-          Loading Ads ...
+         Wait For Content ...
 
         </div>
 
