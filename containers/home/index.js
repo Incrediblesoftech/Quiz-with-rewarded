@@ -19,14 +19,6 @@ function Home() {
   const { setScore } = useScore();
   const router = useRouter();
 
-  const [isOpen, setIsOpen] = useState(true);
-  const [isClient, setIsClient] = useState(false);
-
-
-  // hydration ready
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
 
   // load questions
@@ -248,28 +240,6 @@ function Home() {
       </div>
 
 
-      {/* modal ad */}
-
-      {isClient && (
-
-        <Modal
-          outerClassName="border-[1px] border-white"
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-        >
-
-          <div className="md:mt-[18px] mt-[20px]">
-
-            <Ads
-              display={true}
-              data-ad-slot="4285950865"
-            />
-
-          </div>
-
-        </Modal>
-
-      )}
 
     </Fragment>
 
