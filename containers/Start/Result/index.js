@@ -122,7 +122,7 @@ function Result() {
                     <div className='px-2 pt-2'>
                         <Ads
                             data-ad-format="auto"
-                            data-ad-slot="8433272954"
+                            data-ad-slot="1389762032"
                             data-full-width-responsive="true"
                         />
                     </div>
@@ -164,7 +164,7 @@ function Result() {
                     <div className='px-3 mt-5' >
                         <Ads
                             data-ad-format="auto"
-                            data-ad-slot="8433272954"
+                            data-ad-slot="2487221286"
                             data-full-width-responsive="true"
                         />
                     </div>

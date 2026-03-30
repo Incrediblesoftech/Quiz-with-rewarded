@@ -80,20 +80,19 @@ function Home() {
       <div className="px-3 pt-2">
         <Ads
           data-ad-format="auto"
-          data-ad-slot="8433272954"
+          data-ad-slot="4459409396"
           data-full-width-responsive="true"
         />
       </div>
 
       <div className="flex flex-col items-center justify-start text-center px-3 pt-[50px]">
 
-        <div className="px-2">
           <Ads
             data-ad-format="auto"
-            data-ad-slot="8433272954"
+            data-ad-slot="6894001046"
             data-full-width-responsive="true"
           />
-        </div>
+
 
         <div className="text-2xl font-bold">Quick Start!</div>
         <div className="text-primary2 text-[15px]">
@@ -161,7 +160,7 @@ function Home() {
       <div className="px-3 mt-5">
         <Ads
           data-ad-format="auto"
-          data-ad-slot="8433272954"
+          data-ad-slot="1641674363"
           data-full-width-responsive="true"
         />
       </div>
