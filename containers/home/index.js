@@ -130,7 +130,7 @@ function Home() {
 
         <div className="pt-5">
 
-         Wait For Content ...
+          Wait For Content ...
 
         </div>
 
@@ -201,15 +201,14 @@ function Home() {
 
               <button
                 key={option}
-                className={`py-2 px-4 rounded ${
-                  selected
-                    ? option === quizQuestions[current].answer
-                      ? "bg-green-500 text-white"
-                      : option === selected
+                className={`py-2 px-4 rounded ${selected
+                  ? option === quizQuestions[current].answer
+                    ? "bg-green-500 text-white"
+                    : option === selected
                       ? "bg-red-500 text-white"
                       : "bg-primary1 opacity-60 text-white"
-                    : "bg-primary1 hover:bg-blue-950 hover:text-white"
-                }`}
+                  : "bg-primary1 hover:bg-blue-950 hover:text-white"
+                  }`}
                 disabled={!!selected}
                 onClick={() => handleAnswer(option)}
               >
@@ -223,6 +222,25 @@ function Home() {
           </div>
 
         </div>
+        <div className="flex flex-col items-center justify-center text-center mt-[50px] bg-primary3 w-full p-2 rounded-xl">
+          <div className="text-[18px] font-bold text-center">#Fact</div>
+          <div>{quizQuestions[current].explanation}</div>
+        </div>
+
+        {paragraph.map((item, index) => (
+          <div key={index} className="mt-[50px] bg-primary3 w-full p-4 rounded-xl">
+            <div className="text-[18px] font-bold text-center mb-2">Learn Something New!</div>
+
+            <div className="text-left font-semibold text-[16px] text-white">
+              {item.topic}
+            </div>
+
+            <div className="text-justify text-[14px] text-primary2 mt-1">
+              {item.content}
+            </div>
+          </div>
+        ))}
+
 
       </div>
 
@@ -239,7 +257,22 @@ function Home() {
 
       </div>
 
+      <div className="flex justify-center items-center">
+        <div className="text-center w-fit text-2xl border-b-2 border-solid">
+          Play Quiz and Win Coins!
+        </div>
+      </div>
 
+
+
+      <div className="px-3">
+        <ul className="list-disc  p-4 text-left text-[15px] space-y-2 text-primary2">
+          <li>Play quizzes in 25+ categories like GK, Sports, Bollywood, Business, Cricket & more!</li>
+          <li>Compete with lakhs of other players!</li>
+          <li>Win coins for every game</li>
+          <li>Trusted by millions of other quiz enthusiasts like YOU!</li>
+        </ul>
+      </div>
 
     </Fragment>
 
