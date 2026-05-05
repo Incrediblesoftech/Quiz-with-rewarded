@@ -49,6 +49,17 @@ export default function App({ Component, pageProps }) {
             pauseOnHover
             theme="light"
           />
+
+          <div className=" text-center pb-10 pt-10">
+
+
+            <a href="/affiliate"
+              className="text-blue-500"
+            >
+              Affiliate Disclosure & Terms
+            </a>
+
+          </div>
         </div>
       </ScoreProvider>
     </Fragment>
