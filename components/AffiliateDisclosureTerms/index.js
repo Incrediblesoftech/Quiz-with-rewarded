@@ -36,7 +36,7 @@ function AffiliateDisclosureTerms() {
         found violating these terms without prior notice.
       </p>
 
-      <p className="leading-relaxed">
+      <p className="mb-4 leading-relaxed">
         If you encounter any misuse of our platform, please contact us
         immediately so we can take appropriate action.
       </p>
