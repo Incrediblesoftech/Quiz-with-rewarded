@@ -41,6 +41,12 @@ function AffiliateDisclosureTerms() {
         immediately so we can take appropriate action.
       </p>
 
+      <p className="leading-relaxed">
+        For Any quaries mail us on contact@fingameon.com.
+      </p>
+
+          
+
     </div>
   );
 }
