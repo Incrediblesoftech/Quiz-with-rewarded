@@ -8,7 +8,7 @@ export default function Document() {
         <link rel="icon" href="/assets/image/favIcon.png" />
         <link rel="stylesheet" type="text/css" />
         <title>QuizStorm by SprintPixel </title>
-       
+        <script type="text/javascript" src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
         {/* Google Tag Manager Script */}
         <script dangerouslySetInnerHTML={{
           __html: `
